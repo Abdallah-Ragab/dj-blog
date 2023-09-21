@@ -1,9 +1,14 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 
 USER = get_user_model()
 # Create your models here.
+
+class PublicPostsManager(models.Manager):
+    def get_queryset(self) -> QuerySet:
+        return super().get_queryset().filter(status=Post.Status.PUBLIC)
 
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -20,6 +25,10 @@ class Post(models.Model):
     published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+
+
+    objects = models.Manager()
+    publics = PublicPostsManager()
 
     def __str__(self) -> str:
         return self.title
