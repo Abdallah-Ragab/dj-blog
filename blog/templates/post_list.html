@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+</head>
+<body>
+    {% for post in posts %}
+    <div class="post">
+        <h1 class="post-title">{{ post.title }}</h1>
+        <p class="post-meta"> {{ post.author.username }} - {{ post.published }} </p>
+        <p class="post-body"> {{ post.body }} </p>
+    </div>
+    {% endfor %}
+</body>
+</html>
+
+<style>
+    .post {
+        margin-bottom: 50px;
+    }
+
+    .post-title {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .post-meta {
+        font-size: 15px;
+        color: #999;
+        margin-bottom: 10px;
+    }
+
+    .post-body {
+        font-size: 20px;
+    }
+</style>
