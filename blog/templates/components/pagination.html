@@ -1,0 +1,23 @@
+{% if pagination.pages|length > 1 %}
+
+<nav class="mt-16 flex items-center justify-center space-x-2">
+  <a class="text-gray-500 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.prev %}text-gray-400 pointer-events-none{% endif %}" href="?page={{pagination.prev}}">
+    <span aria-hidden="true">«</span>
+    <span>Previous</span>
+  </a>
+  {% for page in pagination.pages %}
+  {% if page == pagination.current %}
+  <a class="w-10 h-10 bg-blue-500 text-white p-4 inline-flex items-center text-sm font-medium rounded-full pointer-events-none" href="?page={{page}}" aria-current="page">{{page}}</a>
+  {% elif page == '...' %}
+  <a disabled class="w-10 h-10 text-gray-500 hover:text-blue-600 p-4 inline-flex items-center text-sm font-medium rounded-full pointer-events-none">...</a>
+  {% else %}
+  <a class="w-10 h-10 text-gray-500 hover:text-blue-600 p-4 inline-flex items-center text-sm font-medium rounded-full" href="?page={{page}}">{{page}}</a>
+  {% endif %}
+  {% endfor %}
+  <a class="text-gray-500 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.next %}text-gray-400 pointer-events-none{% endif %}" href="?page={{pagination.next}}">
+    <span>Next</span>
+    <span aria-hidden="true">»</span>
+  </a>
+</nav>
+
+{% endif %}

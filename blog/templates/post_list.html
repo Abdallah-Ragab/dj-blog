@@ -28,11 +28,11 @@
           </p>
         </div>
         <div class="mt-auto flex items-center gap-x-3">
-          <img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80" alt="Image Description">
+          <img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/{{ post.author.username }}.png" alt="Image Description">
           <div>
             <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.username }}</h5>
             <p class="text-sm text-gray-600 dark:text-gray-400">
-                September 12, 2022
+                {{ post.published|date:"F d, Y" }}
               </p>
           </div>
         </div>
@@ -42,7 +42,7 @@
     </div>
     <!-- End Grid -->
 
-    <!-- Card -->
+    {% comment %} <!-- Card -->
     <div class="mt-12 text-center">
       <a class="inline-flex justify-center items-center gap-x-2 text-center bg-white border hover:border-gray-300 text-sm text-blue-600 hover:text-blue-700 font-medium hover:shadow-sm rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:bg-slate-900 dark:border-gray-700 dark:hover:border-gray-600 dark:text-blue-500 dark:hover:text-blue-400 dark:hover:shadow-slate-700/[.7] dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800" href="#">
         Read more
@@ -51,7 +51,8 @@
         </svg>
       </a>
     </div>
-    <!-- End Card -->
+    <!-- End Card --> {% endcomment %}
+    {% include 'components/pagination.html' %}
   </div>
   <!-- End Card Blog -->
   {% endblock body %}
