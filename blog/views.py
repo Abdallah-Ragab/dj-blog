@@ -16,6 +16,7 @@ def post_list(request):
         posts = paginator.page(page_number)
     except EmptyPage:
         posts = paginator.page(number_of_pages)
+        page_number = number_of_pages
     except (PageNotAnInteger, ValueError):
         posts = paginator.page(1)
     pagination_info = {
