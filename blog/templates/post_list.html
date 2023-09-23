@@ -15,7 +15,7 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Card -->
       {% for post in posts %}
-      <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{% url 'blog:post_detail' post.id %}">
+      <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{% url 'blog:post_detail' post.slug %}">
         <div class="aspect-w-16 aspect-h-11">
           <img class="w-full object-cover rounded-xl aspect-[4/3]" src="https://picsum.photos/seed/{{ post.id }}/500" alt="Image Description">
         </div>
