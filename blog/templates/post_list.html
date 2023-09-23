@@ -38,7 +38,7 @@
             {{ post.title }}
           </h3>
           <p class="mt-5 text-gray-600 dark:text-gray-400">
-            {{ post.body }}
+            {{ post.body|truncatechars:120 }}
           </p>
         </div>
         <div class="mt-auto flex items-center gap-x-3">
