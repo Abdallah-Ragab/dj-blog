@@ -11,6 +11,6 @@ def generate_unique_slug(_class, field_name, from_field_name, instance):
 
         numb += 1
         if matches.exists():
-            unique_slug = f'{unique_slug}-{numb}'
+            unique_slug = f'{initial_slug}-{numb}'
 
     return unique_slug
