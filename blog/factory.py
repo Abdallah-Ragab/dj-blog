@@ -10,7 +10,6 @@ class PostFactory(DjangoModelFactory):
         model = Post
 
     title = FakerFactory('sentence', nb_words=4)
-    slug = slugify(title)
     body = FakerFactory('paragraph', nb_sentences=20, variable_nb_sentences=True)
     status =FakerFactory('random_element', elements=Post.Status.values)
     author = Iterator(get_user_model().objects.all())
