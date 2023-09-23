@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.contrib.auth import get_user_model
+from .utils import generate_unique_slug
+from django.db.models.signals import pre_save
 
 USER = get_user_model()
 # Create your models here.
@@ -18,7 +20,7 @@ class Post(models.Model):
 
 
     title = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     body = models.TextField()
     status = models.CharField(choices=Status.choices, max_length=2, default=Status.DRAFT)
     author = models.ForeignKey(USER, on_delete=models.CASCADE, related_name="posts")
@@ -38,3 +40,8 @@ class Post(models.Model):
         indexes = [
             models.Index(fields=['-published'],            )
         ]
+
+def auto_populate_unique_slug(sender, instance, update_fields, *args, **kwargs):
+    instance.slug = generate_unique_slug(Post, 'slug', 'title', instance)
+
+pre_save.connect(auto_populate_unique_slug, sender=Post)

@@ -11,5 +11,9 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ['status']
     search_fields = ['title', 'body']
     ordering = ['status', 'published']
-    prepopulated_fields = {'slug': ('title',)}
+    # prepopulated_fields = {'slug': ('title',)}
     date_hierarchy = 'published'
+    # exclude slug field form forms
+    # fields = []
+    # exclude = ['slug']
+    readonly_fields = ['slug']
