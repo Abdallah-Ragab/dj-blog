@@ -5,7 +5,7 @@ register = template.Library()
 @register.filter
 @stringfilter
 def read_time(post_body):
-    words_per_minute = 200
+    words_per_minute = 150
     words = len(post_body.split())
     minutes = words / words_per_minute
     read_time = round(minutes)
