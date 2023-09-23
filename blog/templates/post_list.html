@@ -21,7 +21,7 @@
         </div>
         <div class="my-6">
           <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">
-            {{ post.title }}
+            {{ post.title|title }}
           </h3>
           <p class="mt-5 text-gray-600 dark:text-gray-400">
             {{ post.body|truncatechars:120 }}
@@ -30,7 +30,7 @@
         <div class="mt-auto flex items-center gap-x-3">
           <img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/{{ post.author.username }}.png" alt="Image Description">
           <div>
-            <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.username }}</h5>
+            <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.username|title }}</h5>
             <p class="text-sm text-gray-600 dark:text-gray-400">
                 {{ post.published|date:"F d, Y" }}
               </p>
