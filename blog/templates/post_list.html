@@ -1,18 +1,4 @@
 {% extends 'layouts/base.html' %}
-    {% comment %} {% block body %}
-        {% for post in posts %}
-        <div class="card">
-            <div class="card-body">
-                <h2 class="card-header">{{ post.title }}</h2>
-                <div><span class="badge badge-outline-primary">{{ post.author.username }}</span></div>
-                <p class="text-content2">{{ post.body }}</p>
-                <div class="card-footer">
-                    <a href="{% url 'blog:post_detail' post.id %}"><button class="btn-secondary btn">Learn More</button></a>
-                </div>
-            </div>
-        </div>
-        {% endfor %}
-    {% endblock body %} {% endcomment %}
 
 {% block body %}
 
