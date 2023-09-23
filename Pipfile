@@ -4,6 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+django = "*"
+django-debug-toolbar = "*"
+factory-boy = "*"
 
 [dev-packages]
 
