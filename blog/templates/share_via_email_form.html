@@ -35,7 +35,7 @@
           </svg>
         </button>
       </div>
-      <div class="md-massage-danger bg-red-500 text-sm text-white rounded-md p-4 hidden mx-5" role="alert">
+      <div class="md-massage-danger bg-red-500 text-sm text-white rounded-md p-4 dark:bg-opacity-60 hidden mx-5 mt-4" role="alert">
         <span class="font-bold">Failed To Send Email</span><p></p>
       </div>
       <form class="p-4 overflow-y-auto space-y-3">
@@ -148,7 +148,7 @@
 
             overlayDangerAlert.classList.remove('hidden')
             overlayDangerAlertBold.textContent = 'Failed To Send Email'
-            overlayDangerAlertMessage.textContent = 'Please check the input data and try again.'
+            overlayDangerAlertMessage.textContent = 'Please make sure you have filled all the fields correctly.'
 
           }
           else if (status == 500){
