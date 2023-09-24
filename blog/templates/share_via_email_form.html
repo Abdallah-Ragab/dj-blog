@@ -35,6 +35,9 @@
           </svg>
         </button>
       </div>
+      <div class="md-massage-danger bg-red-500 text-sm text-white rounded-md p-4 hidden mx-5" role="alert">
+        <span class="font-bold">Failed To Send Email</span><p></p>
+      </div>
       <form class="p-4 overflow-y-auto space-y-3">
         {% csrf_token %}
         <div>
@@ -117,7 +120,7 @@
   </div>
 </div>
 
-<script defer src="{% static 'js/modal.js' %}"></script>
+<script src="{% static 'js/modal.js' %}"></script>
 <script>
     modalAction = document.querySelector('[data-md-action-trigger = "#md-share-via-email-modal"]')
     modal = document.querySelector('#md-share-via-email-modal')
@@ -129,6 +132,36 @@
         fetch(endpoint, {
             method: 'POST',
             body: formData
+        }).then(response => response.status).then(status => {
+          if(status == 200){
+            overlay = document.querySelector('#md-share-via-email-modal')
+            overlayBody = overlay.querySelector('.md-overlay-body')
+
+            toggleModal(overlay, overlayBody)
+          }
+          else if (status == 400){
+            overlay = document.querySelector('#md-share-via-email-modal')
+            overlayDangerAlert = overlay.querySelector('.md-massage-danger')
+            overlayDangerAlertBold = overlayDangerAlert.querySelector('span')
+            overlayDangerAlertMessage = overlayDangerAlert.querySelector('p')
+
+
+            overlayDangerAlert.classList.remove('hidden')
+            overlayDangerAlertBold.textContent = 'Failed To Send Email'
+            overlayDangerAlertMessage.textContent = 'Please check the input data and try again.'
+
+          }
+          else if (status == 500){
+            overlay = document.querySelector('#md-share-via-email-modal')
+            overlayDangerAlert = overlay.querySelector('.md-massage-danger')
+            overlayDangerAlertBold = overlayDangerAlert.querySelector('span')
+            overlayDangerAlertMessage = overlayDangerAlert.querySelector('p')
+
+
+            overlayDangerAlert.classList.remove('hidden')
+            overlayDangerAlertBold.textContent = 'Failed To Send Email'
+            overlayDangerAlertMessage.textContent = 'Something went wrong. Please try again later. If the problem persists, please contact the administrator.'
+          }
         })
     })
 </script>

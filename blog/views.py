@@ -55,8 +55,8 @@ def post_share_email(request, slug):
                 mail.send_mail(subject, plain_message, sender_email, [receiver_email], html_message=html_message)
                 return HttpResponse('OK')
             except Exception as e:
-                return HttpResponseServerError(e) if settings.DEBUG else HttpResponseServerError('Internal server error')
                 raise e
+                return HttpResponseServerError(e) if settings.DEBUG else HttpResponseServerError('Internal server error')
         else :
             return HttpResponseBadRequest('Invalid form data')
     else:

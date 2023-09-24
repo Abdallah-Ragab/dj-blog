@@ -106,7 +106,7 @@ span.MsoHyperlinkFollowed {
                       <td align="left" style="padding:0;Margin:0"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:18px;letter-spacing:0;color:#333333;font-size:12px"><span style="background-color:#eeeeee">&nbsp;{{ post.published|date:"F d, Y" }} | {{ post.body|read_time }}&nbsp;min read</span></p></td>
                      </tr>
                      <tr>
-                      <td align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:5px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">{{ post.body|truncatewords:50 }}&nbsp;<a target="_blank" style="mso-line-height-rule:exactly;text-decoration:underline;color:#3382c3;font-size:14px" href="{% post.get_absolute_url %}">Read more</a></p></td>
+                      <td align="left" style="padding:0;Margin:0;padding-bottom:5px;padding-top:5px"><p style="Margin:0;mso-line-height-rule:exactly;font-family:arial, 'helvetica neue', helvetica, sans-serif;line-height:21px;letter-spacing:0;color:#333333;font-size:14px">{{ post.body|truncatewords:50 }}&nbsp;<a target="_blank" style="mso-line-height-rule:exactly;text-decoration:underline;color:#3382c3;font-size:14px" href="{{ post.get_absolute_url }}">Read more</a></p></td>
                      </tr>
                    </table></td>
                  </tr>
@@ -119,7 +119,7 @@ span.MsoHyperlinkFollowed {
                   <td align="left" style="padding:0;Margin:0;width:560px">
                    <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px">
                      <tr>
-                      <td align="center" style="padding:0;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#3d9ae7;border-width:0px;display:inline-block;border-radius:5px;width:auto"><a href="{% post.get_absolute_url %}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#3d9ae7;border-radius:5px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px !important;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #3d9ae7">Read more</a></span></td>
+                      <td align="center" style="padding:0;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#3d9ae7;border-width:0px;display:inline-block;border-radius:5px;width:auto"><a href="{{ post.get_absolute_url }}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#FFFFFF;font-size:20px;padding:10px 30px 10px 30px;display:inline-block;background:#3d9ae7;border-radius:5px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:24px !important;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #3d9ae7">Read more</a></span></td>
                      </tr>
                    </table></td>
                  </tr>
