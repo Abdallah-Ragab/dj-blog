@@ -1,9 +1,14 @@
-from django.http import Http404
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
-from .models import Post, PublicPostsManager
+from django.core import mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.conf import settings
+from .models import Post, PublicPostsManager
 from .utils import get_list_of_pagination_pages
-# Create your views here.
+from .forms import ShareViaEmailForm
+
 DEFAULT_PER_PAGE = 9
 
 def post_list(request):
@@ -32,3 +37,30 @@ def post_list(request):
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status=Post.Status.PUBLIC)
     return render(request, 'post_detail.html', {'post': post})
+
+def post_share_email(request, slug):
+    post = get_object_or_404(Post, slug=slug)
+    if request.method == 'POST':
+        print(request.POST)
+        form = ShareViaEmailForm(request.POST)
+        if form.is_valid():
+            try:
+                data = form.cleaned_data
+                sender_name = data['sender_name']
+                sender_email = data['sender_email']
+                receiver_email = data['receiver_email']
+                subject = f'{sender_name} recommends you read {post.title}'
+                html_message = render_to_string('share_post_email.html', {'post': post, 'sender_name': sender_name, 'sender_email': sender_email})
+                plain_message = strip_tags(html_message)
+                mail.send_mail(subject, plain_message, sender_email, [receiver_email], html_message=html_message)
+                return HttpResponse('OK')
+            except Exception as e:
+                return HttpResponseServerError(e) if settings.DEBUG else HttpResponseServerError('Internal server error')
+                raise e
+        else :
+            return HttpResponseBadRequest('Invalid form data')
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+
+
