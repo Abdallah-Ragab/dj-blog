@@ -5,9 +5,9 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
-from .models import Post, PublicPostsManager
+from .models import Comment, Post, PublicPostsManager
 from .utils import get_list_of_pagination_pages
-from .forms import ShareViaEmailForm
+from .forms import CommentForm, ShareViaEmailForm
 
 DEFAULT_PER_PAGE = 9
 
@@ -36,8 +36,20 @@ def post_list(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status=Post.Status.PUBLIC)
+    if request.method == 'POST':
+        form_data = request.POST
+        form = CommentForm(form_data)
+        if form.is_valid():
+            data = form.cleaned_data
+            name = data['name']
+            email = data['email']
+            content = data['content']
+            Comment.objects.create(name=name, email=email, content=content, post=post)
+
     comments = post.comments.filter(active=True)
-    return render(request, 'post_detail.html', {'post': post, 'comments': comments})
+    comment_form = CommentForm()
+
+    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': comment_form})
 
 def post_share_email(request, slug):
     post = get_object_or_404(Post, slug=slug)
