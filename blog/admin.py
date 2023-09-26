@@ -13,3 +13,12 @@ class PostAdmin(admin.ModelAdmin):
     ordering = ['status', 'published']
     date_hierarchy = 'published'
     readonly_fields = ['slug']
+
+
+class CommentsAdmin(admin.ModelAdmin):
+    list_display = ['name', 'email', 'post', 'created', 'active']
+    list_filter = ['active', 'created', 'updated']
+    search_fields = ['name', 'email', 'content']
+    ordering = ['active', 'created']
+    date_hierarchy = 'created'
+    readonly_fields = ['created', 'updated']
