@@ -9,6 +9,23 @@ from django.db.models.signals import pre_save
 USER = get_user_model()
 AUTO_COMMENT_ACTIVE = True
 
+class Tag(models.Model):
+    name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=25, unique=True, blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog:tag_detail", kwargs={"slug": self.slug})
+
+    class Meta:
+        ordering = ["name"]
+        indexes = [
+            models.Index(
+                fields=["name"],
+            )
+        ]
 
 class Comment(models.Model):
     post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="comments")
@@ -51,6 +68,7 @@ class Post(models.Model):
     published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    tags = models.ManyToManyField(Tag, related_name="posts")
 
     objects = models.Manager()
     publics = PublicPostsManager()
