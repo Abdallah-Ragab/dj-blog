@@ -1,6 +1,7 @@
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.core import mail
+from django.db.models import Count
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -83,17 +84,11 @@ class PostDetailView(DetailView):
         return context
 
     def get_similar_posts(self):
-        return Post.publics.filter(tags__in=self.object.tags.all()).exclude(pk=self.object.pk).distinct()[:3]
+        tags = self.object.tags.all()
+        mutual_posts = Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk).distinct()
+        ordered_posts = mutual_posts.annotate(num_tags=Count('tags')).order_by('-num_tags', '-publish')[:3]
+        return ordered_posts
 
-from django.views import View
-from django.core import mail
-from django.shortcuts import get_object_or_404, render
-from django.template.loader import render_to_string
-from django.utils.html import strip_tags
-from django.conf import settings
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
-from .models import Post
-from .forms import ShareViaEmailForm
 
 class PostShareEmail(View):
     def post(self, request, slug):
