@@ -10,7 +10,7 @@
         {% if tag  %}
         {{ tag.name }}
         {% elif search  %}
-        Search: {{ search }}
+        You searchd for {{ search }}
         {% else %}
         Latest Posts
         {% endif %}
@@ -19,7 +19,11 @@
         {% if tag %}
         Check out the latest blog posts talking about {{ tag.name }}
         {% elif search %}
-        Search results for blog posts talking about "{{ search }}"
+        {% if posts|length < 1 %}
+        No results found for the search term "{{ search }}"
+        {% else %}
+        Viewing search results for blog posts containg the term "{{ search }}"
+        {% endif %}
         {% else %}
         Check out our latest posts from our blog
         {% endif %}
