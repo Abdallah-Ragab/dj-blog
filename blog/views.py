@@ -79,7 +79,11 @@ class PostDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['comments'] = self.object.comments.filter(active=True)
         context['form'] = CommentForm()
+        context['similar_posts'] = self.get_similar_posts()
         return context
+
+    def get_similar_posts(self):
+        return Post.publics.filter(tags__in=self.object.tags.all()).exclude(pk=self.object.pk).distinct()[:3]
 
 from django.views import View
 from django.core import mail
