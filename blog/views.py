@@ -54,56 +54,17 @@ class PostList(View):
         posts = self.get_paginated_queryset()
         return render(request, 'post_list.html', {'posts': posts, "pagination": self.pagination_info, **tag_info})
 
-# def tag_detail(request, slug):
-#     per_page = int(request.GET.get('per_page', DEFAULT_PER_PAGE))
-#     page_number = int(request.GET.get('page', 1))
-#     tag = get_object_or_404(Tag, slug=slug)
-#     all_posts = tag.posts.filter(status=Post.Status.PUBLIC)
-#     paginator = Paginator(all_posts, per_page=per_page)
-#     number_of_pages = paginator.num_pages
-#     try:
-#         posts = paginator.page(page_number)
-#     except EmptyPage:
-#         posts = paginator.page(number_of_pages)
-#         page_number = number_of_pages
-#     except (PageNotAnInteger, ValueError):
-#         posts = paginator.page(1)
-#     pagination_info = {
-#         'current': page_number,
-#         'per_page': per_page,
-#         'max': number_of_pages,
-#         'pages': get_list_of_pagination_pages(page_number, number_of_pages),
-#         'next': page_number + 1 if page_number < number_of_pages else None,
-#         'prev': page_number - 1 if page_number > 1 else None,
-#     }
-#     return render(request, 'post_list.html', {'tag': tag, 'posts': posts, "pagination": pagination_info})
+from django.views.generic import DetailView
+from .models import Post, Comment
+from .forms import CommentForm
 
-# def post_list(request):
-#     per_page = int(request.GET.get('per_page', DEFAULT_PER_PAGE))
-#     page_number = int(request.GET.get('page', 1))
-#     all_posts = Post.publics.all()
-#     paginator = Paginator(all_posts, per_page=per_page)
-#     number_of_pages = paginator.num_pages
-#     try:
-#         posts = paginator.page(page_number)
-#     except EmptyPage:
-#         posts = paginator.page(number_of_pages)
-#         page_number = number_of_pages
-#     except (PageNotAnInteger, ValueError):
-#         posts = paginator.page(1)
-#     pagination_info = {
-#         'current': page_number,
-#         'per_page': per_page,
-#         'max': number_of_pages,
-#         'pages': get_list_of_pagination_pages(page_number, number_of_pages),
-#         'next': page_number + 1 if page_number < number_of_pages else None,
-#         'prev': page_number - 1 if page_number > 1 else None,
-#     }
-#     return render(request, 'post_list.html', {'posts': posts, "pagination": pagination_info})
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_detail.html'
+    context_object_name = 'post'
 
-def post_detail(request, slug):
-    post = get_object_or_404(Post, slug=slug, status=Post.Status.PUBLIC)
-    if request.method == 'POST':
+    def post(self, request, *args, **kwargs):
+        post = self.get_object()
         form_data = request.POST
         form = CommentForm(form_data)
         if form.is_valid():
@@ -112,11 +73,13 @@ def post_detail(request, slug):
             email = data['email']
             content = data['content']
             Comment.objects.create(name=name, email=email, content=content, post=post)
+        return self.get(request, *args, **kwargs)
 
-    comments = post.comments.filter(active=True)
-    comment_form = CommentForm()
-
-    return render(request, 'post_detail.html', {'post': post, 'comments': comments, 'form': comment_form})
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.filter(active=True)
+        context['form'] = CommentForm()
+        return context
 
 def post_share_email(request, slug):
     post = get_object_or_404(Post, slug=slug)
