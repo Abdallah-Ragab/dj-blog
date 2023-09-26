@@ -56,22 +56,16 @@
         <h2 class="text-2xl font-bold md:text-3xl dark:text-white">{{ post.title|title }}</h2>
         <p class="text-lg text-gray-800 dark:text-gray-200">{{ post.body }}</p>
         <div>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-200 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200" href="#">
-              Plan
-            </a>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-200 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200" href="#">
-              Web development
-            </a>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-200 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200" href="#">
-              Free
-            </a>
-            <a class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-200 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200" href="#">
-              Team
-            </a>
-          </div>
+
+          {% for tag in post.tags.all %}
+          <a href="{{ tag.get_absolute_url }}" class="m-1 inline-flex items-center gap-1.5 py-2 px-3 rounded-full text-sm bg-gray-200 text-gray-800 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-200">
+            {{ tag.name|title }}
+          </a>
+          {% endfor %}
+        </div>
       </div>
 
-      </div>
+    </div>
       <!-- End Content -->
     </div>
   <!-- End Blog Article -->

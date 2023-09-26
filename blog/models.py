@@ -18,7 +18,7 @@ class Tag(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("blog:tag_detail", kwargs={"slug": self.slug})
+        return reverse("blog:tag_list", kwargs={"tag": self.slug})
 
     class Meta:
         ordering = ["name"]
