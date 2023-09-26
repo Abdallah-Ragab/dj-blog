@@ -36,7 +36,8 @@ def post_list(request):
 
 def post_detail(request, slug):
     post = get_object_or_404(Post, slug=slug, status=Post.Status.PUBLIC)
-    return render(request, 'post_detail.html', {'post': post})
+    comments = post.comments.filter(active=True)
+    return render(request, 'post_detail.html', {'post': post, 'comments': comments})
 
 def post_share_email(request, slug):
     post = get_object_or_404(Post, slug=slug)
