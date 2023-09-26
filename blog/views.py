@@ -81,10 +81,19 @@ class PostDetailView(DetailView):
         context['form'] = CommentForm()
         return context
 
-def post_share_email(request, slug):
-    post = get_object_or_404(Post, slug=slug)
-    if request.method == 'POST':
-        print(request.POST)
+from django.views import View
+from django.core import mail
+from django.shortcuts import get_object_or_404, render
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
+from .models import Post
+from .forms import ShareViaEmailForm
+
+class PostShareEmail(View):
+    def post(self, request, slug):
+        post = get_object_or_404(Post, slug=slug)
         form = ShareViaEmailForm(request.POST)
         if form.is_valid():
             try:
@@ -98,12 +107,7 @@ def post_share_email(request, slug):
                 mail.send_mail(subject, plain_message, sender_email, [receiver_email], html_message=html_message)
                 return HttpResponse('OK')
             except Exception as e:
-                raise e
                 return HttpResponseServerError(e) if settings.DEBUG else HttpResponseServerError('Internal server error')
         else :
             return HttpResponseBadRequest('Invalid form data')
-    else:
-        return HttpResponseNotAllowed(['POST'])
-
-
 
