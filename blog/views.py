@@ -1,12 +1,13 @@
 from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import get_object_or_404, render
 from django.core import mail
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.views import View
+from django.views.generic import DetailView
 from .models import Comment, Post, PublicPostsManager, Tag
 from .utils import get_list_of_pagination_pages
 from .forms import CommentForm, ShareViaEmailForm
@@ -45,19 +46,23 @@ class PostList(View):
 
 
     def get(self, request, *args, **kwargs):
-        tag_info = {}
+        additional_context = {}
         if 'tag' in kwargs:
             tag = get_object_or_404(Tag, slug=kwargs['tag'])
             self.queryset = tag.posts.filter(status=Post.Status.PUBLIC)
-            tag_info = {'tag': tag}
+            additional_context['tag'] = tag
+        elif 'search' in request.GET :
+            search_term = request.GET['search']
+            self.queryset = Post.publics.filter(
+                Q(title__icontains=search_term) or Q(body__icontains=search_term)
+            )
+            additional_context['search'] = search_term
+
         else:
             self.queryset = Post.publics.all()
         posts = self.get_paginated_queryset()
-        return render(request, 'post_list.html', {'posts': posts, "pagination": self.pagination_info, **tag_info})
+        return render(request, 'post_list.html', {'posts': posts, "pagination": self.pagination_info, **additional_context})
 
-from django.views.generic import DetailView
-from .models import Post, Comment
-from .forms import CommentForm
 
 class PostDetailView(DetailView):
     model = Post
