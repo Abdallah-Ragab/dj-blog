@@ -25,7 +25,7 @@ class Comment(models.Model):
         ordering = ["-created"]
         indexes = [
             models.Index(
-                fields=["-created", "post"],
+                fields=["-created", "post", "active"],
             )
         ]
 
