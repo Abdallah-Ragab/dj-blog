@@ -44,9 +44,15 @@ class PostList(View):
 
 
     def get(self, request, *args, **kwargs):
-        self.queryset = Post.publics.all()
+        tag_info = {}
+        if 'tag' in kwargs:
+            tag = get_object_or_404(Tag, slug=kwargs['tag'])
+            self.queryset = tag.posts.filter(status=Post.Status.PUBLIC)
+            tag_info = {'tag': tag}
+        else:
+            self.queryset = Post.publics.all()
         posts = self.get_paginated_queryset()
-        return render(request, 'post_list.html', {'posts': posts, "pagination": self.pagination_info})
+        return render(request, 'post_list.html', {'posts': posts, "pagination": self.pagination_info, **tag_info})
 
 # def tag_detail(request, slug):
 #     per_page = int(request.GET.get('per_page', DEFAULT_PER_PAGE))
