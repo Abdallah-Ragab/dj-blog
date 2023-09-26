@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment
+from .models import Post, Comment, Tag
 # Register your models here.
 
 # admin.site.register(Post)
@@ -21,3 +21,11 @@ class CommentsAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', 'content']
     ordering = ['active', 'created', 'post']
     date_hierarchy = 'created'
+
+@admin.register(Tag)
+class TagsAdmin(admin.ModelAdmin):
+    list_display = ['name']
+    list_filter = ['name']
+    search_fields = ['name']
+    ordering = ['name']
+    readonly_fields = ['slug']

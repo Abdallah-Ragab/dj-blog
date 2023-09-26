@@ -91,5 +91,9 @@ class Post(models.Model):
 def auto_populate_unique_slug(sender, instance, update_fields, *args, **kwargs):
     instance.slug = generate_unique_slug(Post, "slug", "title", instance)
 
+def auto_populate_unique_slug_for_tag(sender, instance, update_fields, *args, **kwargs):
+    instance.slug = generate_unique_slug(Tag, "slug", "name", instance)
+
 
 pre_save.connect(auto_populate_unique_slug, sender=Post)
+pre_save.connect(auto_populate_unique_slug_for_tag, sender=Tag)
