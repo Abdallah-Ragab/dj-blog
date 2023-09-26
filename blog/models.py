@@ -10,8 +10,9 @@ USER = get_user_model()
 AUTO_COMMENT_ACTIVE = True
 
 class Tag(models.Model):
-    name = models.CharField(max_length=25)
-    slug = models.SlugField(max_length=25, unique=True, blank=True, null=True)
+    name = models.CharField(max_length=24)
+    slug = models.SlugField(max_length=24, unique=True, blank=True, null=True)
+    description = models.TextField(max_length=128, blank=True, null=True)
 
     def __str__(self) -> str:
         return self.name
