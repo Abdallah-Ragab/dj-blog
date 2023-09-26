@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 CUSTOM_APPS = [
+    'django.contrib.humanize',
     'blog'
 ]
 INSTALLED_APPS = [
