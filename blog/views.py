@@ -20,6 +20,9 @@ from .forms import CommentForm, ShareViaEmailForm
 
 DEFAULT_PER_PAGE = 9
 
+class CreatePost(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "create_post.html")
 
 class Index(View):
     def get(self, request, *args, **kwargs):

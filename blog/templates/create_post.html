@@ -1,0 +1,141 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block body %}
+<!-- Contact Us -->
+<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <div class="max-w-2xl lg:max-w-5xl mx-auto">
+    <div class="text-center">
+      <h1 class="text-3xl font-bold text-gray-800 sm:text-4xl dark:text-white">
+        New Post
+      </h1>
+      <p class="mt-1 text-gray-600 dark:text-gray-400">
+        Create a new post and share it with the world.
+      </p>
+    </div>
+
+    <div class="mt-12 grid items-start lg:grid-cols-3 gap-6 lg:gap-16">
+      <!-- Card -->
+      <div
+        class="col-span-2 lg:order-none order-last bg-white rounded"
+      >
+        <div
+          id="postContent"
+          class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-gray-700 bg-white"
+        ></div>
+        <input
+          type="hidden"
+          name="postContent-input"
+          id="postContent-input">
+      </div>
+      <!-- End Card -->
+
+      <div
+        class="lg:col-span-1 col-span-2 divide-y divide-gray-200 dark:divide-gray-800"
+      >
+        <h2 class="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
+          Post Details
+        </h2>
+        <form>
+          <div class="grid gap-4">
+            <!-- Grid -->
+            <div>
+              <label for="title" class="sr-only">Title</label>
+              <input
+                type="text"
+                name="title"
+                id="title"
+                autocomplete="email"
+                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                placeholder="Enter a title"
+              />
+            </div>
+
+            <div>
+              <label for="tags" class="sr-only">Tags</label>
+              <input
+                type="text"
+                name="tags"
+                id="tags"
+                class="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+                placeholder="Add Tag"
+              />
+            </div>
+          </div>
+          <!-- End Grid -->
+
+          <div class="mt-4 grid">
+            <button
+              type="submit"
+              class="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800"
+            >
+              Send inquiry
+            </button>
+          </div>
+
+          <div class="mt-3 text-center">
+            <p class="text-sm text-gray-500">
+              We'll get back to you in 1-2 business days.
+            </p>
+            <code class="text-sm text-gray-500 bg-gray-950 rounded-xl p-4">
+                var x = 5;
+            </code>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@latest/src/index.min.js"></script>
+<link rel="stylesheet" href="{% static 'css/summernote-lite.min.css' %}">
+<script src="{% static 'js/summernote-lite.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#postContent').summernote({
+            placeholder: 'Write the content of your post here...',
+            tabsize: 2,
+            minHeight: 400,
+            callbacks: {
+                onChange: function(contents, $editable) {
+                    document.getElementById("postContent-input").value = contents;
+                },
+                onImageUpload: function(files) {
+                    var key = '5f1262a561d418961c5cb60a0da60f71'
+                    var endpoint = 'https://api.imgbb.com/1/upload?key=' + key
+                    var image = files[0];
+                    const data = new FormData()
+                    data.append('image', image);
+
+                    console.log(image)
+
+                    fetch(endpoint, {
+                        method: 'POST',
+                        body: data
+                    }).then(response => {
+                        if (response.ok) {
+                            return response.json()
+                        } else {
+                            throw new Error('Something went wrong with the image upload:' + response.json().error)
+                        }
+                    }).then(data => {
+                        $('#postContent').summernote(
+                            'insertImage',
+                            data.data.url,
+                            function($image) {
+                                $image.css('width', '50%');
+                                $image.attr('data-filename', data.data.name);
+                            }
+                        );
+                    }).catch(error => {
+                        console.error(error)
+                    })
+                }
+            }
+        });
+      });
+
+</script>
+
+{% endblock body %}
