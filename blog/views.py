@@ -176,10 +176,8 @@ class PostDetailView(DetailView):
     def get_similar_posts(self):
         tags = self.object.tags.all()
         if not tags:
-            return Post.publics.all()[:3]
-        mutual_posts = (
-            Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk).distinct()
-        )
+            return Post.publics.all().exclude(pk=self.object.pk).order_by("-published")[:3]
+        mutual_posts = Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk).distinct()
         ordered_posts = mutual_posts.annotate(num_tags=Count("tags")).order_by(
             "-num_tags", "-published"
         )[:3]
