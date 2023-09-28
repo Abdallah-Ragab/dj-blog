@@ -85,7 +85,8 @@ class Index(View):
         return Post.publics.all()[:4]
 
     def get_featured_tags(self):
-        return Tag.objects.all()[:2]
+        # tags with the most posts
+        return Tag.objects.annotate(num_posts=Count("posts")).order_by("-num_posts")[:3]
     def get(self, request, *args, **kwargs):
         return render(request, "index.html", context={"posts": Post.publics.all()[:3], "featured_post": self.get_featured_post(), "latest_posts": self.get_latest_posts(), "featured_tags": self.get_featured_tags()})
 

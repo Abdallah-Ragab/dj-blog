@@ -74,7 +74,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, related_name="posts")
-    image = models.ImageField(upload_to=save_image, blank=True, null=True, default="media/default.jpg")
+    image = models.ImageField(upload_to=save_image, blank=True, null=False, default="media/default.jpg")
 
     objects = models.Manager()
     publics = PublicPostsManager()
