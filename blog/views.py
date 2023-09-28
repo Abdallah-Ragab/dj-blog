@@ -178,8 +178,12 @@ class PostDetailView(DetailView):
         tags = self.object.tags.all()
         if not tags:
             return Post.publics.all().exclude(pk=self.object.pk).order_by("-published")[:3]
-        mutual_posts = Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk).distinct()
-        ordered_posts = mutual_posts.annotate(num_tags=Count("tags")).order_by(
+        mutual_posts = Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk)
+        if mutual_posts.count() < 3:
+            needed_posts = 3 - mutual_posts.count()
+            extra_posts = Post.publics.all().exclude(pk=self.object.pk).order_by("-published")[:needed_posts]
+            mutual_posts = mutual_posts | extra_posts
+        ordered_posts = mutual_posts.distinct().annotate(num_tags=Count("tags")).order_by(
             "-num_tags", "-published"
         )[:3]
         return ordered_posts
