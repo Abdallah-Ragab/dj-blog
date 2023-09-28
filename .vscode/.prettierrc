@@ -1,7 +1,6 @@
 {
   "tabWidth": 2,
   "useTabs": false,
-  "htmlWhitespaceSensitivity": "ignore",
-  "singleQuote": true,
-  "jsxSingleQuote": true
+  "bracketSameLine": true,
+  "singleAttributePerLine": false
 }

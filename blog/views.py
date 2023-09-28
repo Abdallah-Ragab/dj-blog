@@ -4,6 +4,7 @@ from django.http import (
     HttpResponseBadRequest,
     HttpResponseNotAllowed,
     HttpResponseServerError,
+    JsonResponse
 )
 from django.shortcuts import get_object_or_404, render
 from django.core import mail
@@ -19,6 +20,17 @@ from .utils import get_list_of_pagination_pages
 from .forms import CommentForm, ShareViaEmailForm
 
 DEFAULT_PER_PAGE = 9
+
+class TagListJSON(View):
+    def get(self, request, *args, **kwargs):
+        search_term = request.GET.get("search", None)
+        if search_term:
+            tags = Tag.objects.filter(name__icontains=search_term)
+        else:
+            tags = Tag.objects.all()
+        return JsonResponse(
+            {'tags': [{'name': tag.name, 'slug': tag.slug} for tag in tags]},
+        )
 
 class CreatePost(View):
     def get(self, request, *args, **kwargs):
