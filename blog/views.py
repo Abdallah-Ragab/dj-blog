@@ -77,8 +77,16 @@ class CreatePost(View):
 
 
 class Index(View):
+    def get_featured_post(self):
+        return Post.publics.first()
+
+    def get_latest_posts(self):
+        return Post.publics.all()[:4]
+
+    def get_featured_tags(self):
+        return Tag.objects.all()[:2]
     def get(self, request, *args, **kwargs):
-        return render(request, "index.html")
+        return render(request, "index.html", context={"posts": Post.publics.all()[:3], "featured_post": self.get_featured_post(), "latest_posts": self.get_latest_posts(), "featured_tags": self.get_featured_tags()})
 
 
 class PostList(View):
