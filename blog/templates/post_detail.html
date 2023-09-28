@@ -92,9 +92,9 @@
               </div>
             <!-- End Avatar Media -->
           </div>
-          <div class="space-y-5 md:space-y-8">
+          <div class="space-y-5 md:space-y-8 text-gray-800 dark:text-gray-200">
             <p class="text-lg text-gray-800 dark:text-gray-200">
-              {{ post.body }}
+              {{ post.body|safe }}
             </p>
             <div>
               {% for tag in post.tags.all %}

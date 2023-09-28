@@ -171,11 +171,7 @@
           return tags;
         })
         .then((tags) => {
-          console.log(tags.length);
-          if (tags.length > 0) {
-            console.log("showing dropdown");
-            tagsDropdown.classList.remove("hidden");
-          }
+          tagsDropdown.classList.remove("hidden");
         });
     });
 

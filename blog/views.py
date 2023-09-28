@@ -6,7 +6,7 @@ from django.http import (
     HttpResponseServerError,
     JsonResponse
 )
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.core import mail
 from django.db.models import Count, Q
 from django.template.loader import render_to_string
@@ -15,9 +15,11 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.conf import settings
 from django.views import View
 from django.views.generic import DetailView
+from django.contrib.auth import get_user_model
+import json
 from .models import Comment, Post, PublicPostsManager, Tag
 from .utils import get_list_of_pagination_pages
-from .forms import CommentForm, ShareViaEmailForm
+from .forms import CommentForm, ShareViaEmailForm, PostForm
 
 DEFAULT_PER_PAGE = 9
 
@@ -35,6 +37,41 @@ class TagListJSON(View):
 class CreatePost(View):
     def get(self, request, *args, **kwargs):
         return render(request, "create_post.html")
+
+    def get_tags_queryset(self):
+        if not self.form.cleaned_data['tags']:
+            return
+        self.tag_names = []
+        tags = self.form.cleaned_data['tags']
+        for tag in tags:
+            if tag['name'] not in self.tag_names:
+                self.tag_names.append(tag['name'])
+                if not Tag.objects.filter(name=tag['name']).exists():
+                    Tag.objects.create(name=tag['name'])
+
+        self.tags = Tag.objects.filter(name__in=self.tag_names)
+        return self.tags
+
+    def post(self, request, *args, **kwargs):
+        form_data = request.POST
+        self.form = PostForm(form_data)
+        if self.form.is_valid():
+            self.obj = Post(
+                title=self.form.cleaned_data['title'],
+                body=self.form.cleaned_data['body'],
+                author=get_user_model().objects.first(),
+                status=Post.Status.PUBLIC
+            )
+            self.obj.save()
+            if self.form.cleaned_data['tags']:
+                self.get_tags_queryset()
+                for tag in self.tags:
+                    self.obj.tags.add(tag)
+            return redirect('blog:post_detail', slug=self.obj.slug)
+        else:
+            return HttpResponseBadRequest(f'Error with: {self.form.errors} | body: {self.request.POST["body"]}')
+
+
 
 class Index(View):
     def get(self, request, *args, **kwargs):
@@ -127,11 +164,13 @@ class PostDetailView(DetailView):
 
     def get_similar_posts(self):
         tags = self.object.tags.all()
+        if not tags:
+            return Post.publics.all()[:3]
         mutual_posts = (
             Post.publics.filter(tags__in=tags).exclude(pk=self.object.pk).distinct()
         )
         ordered_posts = mutual_posts.annotate(num_tags=Count("tags")).order_by(
-            "-num_tags", "-publish"
+            "-num_tags", "-published"
         )[:3]
         return ordered_posts
 
