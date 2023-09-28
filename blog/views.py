@@ -54,6 +54,7 @@ class CreatePost(View):
 
     def post(self, request, *args, **kwargs):
         form_data = request.POST
+        form_files = request.FILES
         self.form = PostForm(form_data)
         self.action = form_data.get('action', None)
         if self.form.is_valid():
@@ -62,6 +63,7 @@ class CreatePost(View):
                 body=self.form.cleaned_data['body'],
                 author=get_user_model().objects.first(),
                 status=Post.Status.PUBLIC if self.action == 'publish' else Post.Status.DRAFT if self.action == 'draft' else None,
+                image=form_files['image'] if form_files.get('image', None) else None,
             )
             self.obj.save()
             if self.form.cleaned_data['tags']:

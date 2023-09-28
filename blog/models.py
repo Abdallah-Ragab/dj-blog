@@ -9,6 +9,10 @@ from django.db.models.signals import pre_save
 USER = get_user_model()
 AUTO_COMMENT_ACTIVE = True
 
+def save_image(instance, filename):
+    return f"images/{instance.author}-{filename}"
+
+
 class Tag(models.Model):
     name = models.CharField(max_length=24)
     slug = models.SlugField(max_length=24, unique=True, blank=True, null=True)
@@ -70,7 +74,7 @@ class Post(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     tags = models.ManyToManyField(Tag, related_name="posts")
-    image = models.ImageField(upload_to="media/", blank=True, null=True, default="media/default.jpg")
+    image = models.ImageField(upload_to=save_image, blank=True, null=True, default="media/default.jpg")
 
     objects = models.Manager()
     publics = PublicPostsManager()
@@ -88,6 +92,7 @@ class Post(models.Model):
                 fields=["-published"],
             )
         ]
+
 
 
 def auto_populate_unique_slug(sender, instance, update_fields, *args, **kwargs):
