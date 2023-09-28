@@ -1,4 +1,4 @@
-from django.forms import Form, CharField, EmailField, JSONField, ValidationError
+from django.forms import Form, CharField, EmailField, JSONField, ValidationError, ImageField
 
 class ShareViaEmailForm(Form):
     sender_name = CharField(max_length=25, required=True)
@@ -15,6 +15,7 @@ class PostForm(Form):
     title = CharField()
     body = CharField()
     tags = JSONField(required=False)
+    image = ImageField(required=False)
 
 
 

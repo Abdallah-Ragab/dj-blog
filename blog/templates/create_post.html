@@ -19,9 +19,41 @@
         <h2 class="mb-8 text-xl font-semibold text-gray-800 dark:text-gray-200">
           Post Details
         </h2>
-        <form method='POST'>
+        <form method='POST' class="space-y-4 flex flex-col" enctype="multipart/form-data">
           {% csrf_token %}
-          <div class="grid gap-4">
+          <div id="image-upload-container" class="group rounded-md">
+            <div id="image-upload-trigger" class="cursor-pointer flex flex-col justify-center items-center w-full group-hover:opacity-70 aspect-[4/3] bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
+              <svg class="w-12 h-12 group-hover:text-gray-600 group-hover:dark:text-gray-400 text-gray-400 dark:text-gray-600 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+              </svg>
+              <p class="group-hover:text-gray-600 group-hover:dark:text-gray-400 text-gray-400 dark:text-gray-600 transition-all duration-200">
+                ADD IMAGE
+              </p>
+            </div>
+            <input type="file" name="image" id="image-upload-input" class="hidden" />
+            <script>
+              const imageUploadInput = document.querySelector("#image-upload-input");
+              const imageUploadTrigger = document.querySelector("#image-upload-trigger");
+              const imageUploadContainer = document.querySelector("#image-upload-container");
+              imageUploadTrigger.addEventListener("click", () => {
+                imageUploadInput.click();
+              });
+              imageUploadInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  imageUploadContainer.style.backgroundImage = `url(${reader.result})`;
+                  imageUploadContainer.style.backgroundSize = `cover`;
+                  imageUploadContainer.style.backgroundPosition = `center`;
+                  imageUploadContainer.style.backgroundRepeat = `no-repeat`;
+                  imageUploadTrigger.classList.add("opacity-0");
+                };
+                reader.readAsDataURL(file);
+              });
+            </script>
+          </div>
+          {% csrf_token %}
+
             <div>
               <label for="title" class="dark:text-gray-300">Title</label>
               <input type="text" name="title" id="title"
@@ -44,17 +76,16 @@
               </div>
             </div>
             <input type="hidden" name="body" id="postContent-input" />
-          </div>
-          <div class="mt-4 grid">
-            <button type="submit" name="action" value="draft"
-              class="inline-flex justify-center items-center gap-x-3 text-center bg-gray-500 hover:bg-gray-600 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800 mb-2">
-              Save Draft
-            </button>
-            <button type="submit" name="action" value="publish"
-              class="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800">
-              Publish Post
-            </button>
-          </div>
+            <div class="space-y-2 flex flex-col">
+              <button type="submit" name="action" value="draft"
+                class="inline-flex justify-center items-center gap-x-3 text-center bg-gray-500 hover:bg-gray-600 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800">
+                Save Draft
+              </button>
+              <button type="submit" name="action" value="publish"
+                class="inline-flex justify-center items-center gap-x-3 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-sm lg:text-base text-white font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:focus:ring-offset-gray-800">
+                Publish Post
+              </button>
+            </div>
         </form>
       </div>
     </div>
