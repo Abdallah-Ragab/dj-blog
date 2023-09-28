@@ -55,19 +55,20 @@ class CreatePost(View):
     def post(self, request, *args, **kwargs):
         form_data = request.POST
         self.form = PostForm(form_data)
+        self.action = form_data.get('action', None)
         if self.form.is_valid():
             self.obj = Post(
                 title=self.form.cleaned_data['title'],
                 body=self.form.cleaned_data['body'],
                 author=get_user_model().objects.first(),
-                status=Post.Status.PUBLIC
+                status=Post.Status.PUBLIC if self.action == 'publish' else Post.Status.DRAFT if self.action == 'draft' else None,
             )
             self.obj.save()
             if self.form.cleaned_data['tags']:
                 self.get_tags_queryset()
                 for tag in self.tags:
                     self.obj.tags.add(tag)
-            return redirect('blog:post_detail', slug=self.obj.slug)
+            return redirect('blog:post_detail', slug=self.obj.slug) if self.action == 'publish' else redirect('blog:create_post')
         else:
             return HttpResponseBadRequest(f'Error with: {self.form.errors} | body: {self.request.POST["body"]}')
 
