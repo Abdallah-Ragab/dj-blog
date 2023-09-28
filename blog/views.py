@@ -16,7 +16,7 @@ from django.conf import settings
 from django.views import View
 from django.views.generic import DetailView
 from django.contrib.auth import get_user_model
-import json
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Comment, Post, PublicPostsManager, Tag
 from .utils import get_list_of_pagination_pages
 from .forms import CommentForm, ShareViaEmailForm, PostForm
@@ -34,7 +34,8 @@ class TagListJSON(View):
             {'tags': [{'name': tag.name, 'slug': tag.slug} for tag in tags]},
         )
 
-class CreatePost(View):
+class CreatePost(LoginRequiredMixin, View):
+    login_url = '/admin/login/'
     def get(self, request, *args, **kwargs):
         return render(request, "create_post.html")
 
