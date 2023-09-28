@@ -62,7 +62,7 @@ class CreatePost(LoginRequiredMixin, View):
             self.obj = Post(
                 title=self.form.cleaned_data['title'],
                 body=self.form.cleaned_data['body'],
-                author=get_user_model().objects.first(),
+                author=request.user,
                 status=Post.Status.PUBLIC if self.action == 'publish' else Post.Status.DRAFT if self.action == 'draft' else None,
                 image=form_files['image'] if form_files.get('image', None) else None,
             )
