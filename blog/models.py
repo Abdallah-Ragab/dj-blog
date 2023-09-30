@@ -74,7 +74,7 @@ class Post(models.Model):
     status = models.CharField(
         choices=Status.choices, max_length=2, default=Status.DRAFT
     )
-    author = models.ForeignKey(USER, on_delete=models.CASCADE, related_name="posts")
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="posts")
     published = models.DateTimeField(default=timezone.now)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
