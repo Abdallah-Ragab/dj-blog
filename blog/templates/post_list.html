@@ -18,7 +18,7 @@
         {% if tag %}
           Check out the latest blog posts talking about {{ tag.name }}
         {% elif search %}
-          {% if (posts|length) < 1 %}
+          {% if posts|length < 1 %}
             No results found for the search term "{{ search }}"
           {% else %}
             Viewing search results for blog posts containing the term "{{ search }}"

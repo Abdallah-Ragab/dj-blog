@@ -1,20 +1,20 @@
 {% load post_extras %}
-{% if (pagination.pages|length) > 1 %}
+{% if pagination.pages|length > 1 %}
   <nav class="mt-16 flex items-center justify-center">
-    <a class="hidden sm:block text-gray-500 dark:text-gray-400 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.prev %}{% endif %}" href="{% url_append_query_params page = pagination.prev %}">
+    <a class="hidden sm:block text-gray-500 dark:text-gray-400 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.prev %}{% endif %}" href="{% url_append_query_params page=pagination.prev %}">
       <span aria-hidden="true">«</span>
       <span>Previous</span>
     </a>
     {% for page in pagination.pages %}
       {% if page == pagination.current %}
-        <a class="w-10 h-10 bg-blue-500 text-white p-4 inline-flex items-center text-sm font-medium rounded-full pointer-events-none" href="{% url_append_query_params page = page %}" aria-current="page">{{ page }}</a>
+        <a class="w-10 h-10 bg-blue-500 text-white p-4 inline-flex items-center text-sm font-medium rounded-full pointer-events-none" href="{% url_append_query_params page=page %}" aria-current="page">{{ page }}</a>
       {% elif page == '...' %}
         <a disabled class="w-10 h-10 text-gray-500 hover:text-blue-600 p-4 inline-flex items-center text-sm font-medium rounded-full pointer-events-none">...</a>
       {% else %}
-        <a class="w-10 h-10 text-gray-500 hover:text-blue-600 p-4 inline-flex items-center text-sm font-medium rounded-full" href="{% url_append_query_params page = page %}">{{ page }}</a>
+        <a class="w-10 h-10 text-gray-500 hover:text-blue-600 p-4 inline-flex items-center text-sm font-medium rounded-full" href="{% url_append_query_params page=page %}">{{ page }}</a>
       {% endif %}
     {% endfor %}
-    <a class="hidden sm:block text-gray-500 dark:text-gray-400 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.next %}{% endif %}" href="{% url_append_query_params page = pagination.next %}">
+    <a class="hidden sm:block text-gray-500 dark:text-gray-400 hover:text-blue-600 p-4 inline-flex items-center gap-2 rounded-md {% if not pagination.next %}{% endif %}" href="{% url_append_query_params page=pagination.next %}">
       <span>Next</span>
       <span aria-hidden="true">»</span>
     </a>

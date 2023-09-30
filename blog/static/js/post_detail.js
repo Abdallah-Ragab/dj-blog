@@ -1,5 +1,5 @@
 function isLikedPost() {
-    const postSlug = '{{ post.slug }}'
+    const postSlug = POST_SLUG
     likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || []
     postIndex = likedPosts.indexOf(postSlug)
     if (postIndex === -1) {
@@ -28,25 +28,25 @@ function isLikedPost() {
   function toggleLikePost() {
     likedPosts = JSON.parse(localStorage.getItem('likedPosts')) || []
     if (isLikedPost()) {
-      result = fetch("{% url 'blog:post_unlike' post.slug %}", {
+      result = fetch(UNLIKE_POST_URL, {
         method: 'GET'
       })
         .then((response) => response.ok)
         .then((ok) => {
           if (ok) {
-            likedPosts.splice(likedPosts.indexOf('{{ post.slug }}'), 1)
+            likedPosts.splice(likedPosts.indexOf(POST_SLUG), 1)
             localStorage.setItem('likedPosts', JSON.stringify(likedPosts))
             uiLikePost()
           }
         })
     } else {
-      result = fetch("{% url 'blog:post_like' post.slug %}", {
+      result = fetch(LIKE_POST_URL, {
         method: 'GET'
       })
         .then((response) => response.ok)
         .then((ok) => {
           if (ok) {
-            likedPosts.push('{{ post.slug }}')
+            likedPosts.push(POST_SLUG)
             localStorage.setItem('likedPosts', JSON.stringify(likedPosts))
             uiLikePost()
           }
