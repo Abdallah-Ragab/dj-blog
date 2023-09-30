@@ -149,16 +149,16 @@
         <div class="group flex items-center gap-x-3 border-b border-gray-200 pb-8 mb-8 dark:border-gray-700">
           <a class="block flex-shrink-0" href="#">
             <img class="h-10 w-10 rounded-full"
-              src="https://images.unsplash.com/photo-1669837401587-f9a4cfe3126e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+              src="{{ post.author.image.url}}"
               alt="Image Description" />
           </a>
 
           <a class="group grow block" href="">
             <h5
               class="group-hover:text-gray-600 text-sm font-semibold text-gray-800 dark:group-hover:text-gray-400 dark:text-gray-200">
-              Leyla Ludic
+              {{ post.author.user.first_name|title}} {{ post.author.user.last_name|title}}
             </h5>
-            <p class="text-sm text-gray-500">UI/UX enthusiast</p>
+            <p class="text-sm text-gray-500">{{ post.author.bio|title}}</p>
           </a>
 {% comment %}
           <div class="grow">

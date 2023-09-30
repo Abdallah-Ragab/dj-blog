@@ -48,9 +48,9 @@
           </p>
         </div>
         <div class="mt-auto flex items-center gap-x-3">
-          <img class="w-8 h-8 rounded-full" src="https://api.multiavatar.com/{{ post.author.username }}.png" alt="Image Description">
+          <img class="w-8 h-8 rounded-full" src="{{ post.author.image.url }}" alt="Image Description">
           <div>
-            <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.username|title }}</h5>
+            <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.user.first_name|title}} {{ post.author.user.last_name|title}}</h5>
             <p class="text-sm text-gray-600 dark:text-gray-400">
                 {{ post.published|date:"F d, Y" }}
               </p>
@@ -61,17 +61,6 @@
       <!-- End Card -->
     </div>
     <!-- End Grid -->
-
-    {% comment %} <!-- Card -->
-    <div class="mt-12 text-center">
-      <a class="inline-flex justify-center items-center gap-x-2 text-center bg-white border hover:border-gray-300 text-sm text-blue-600 hover:text-blue-700 font-medium hover:shadow-sm rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:bg-slate-900 dark:border-gray-700 dark:hover:border-gray-600 dark:text-blue-500 dark:hover:text-blue-400 dark:hover:shadow-slate-700/[.7] dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800" href="#">
-        Read more
-        <svg class="w-2.5 h-2.5" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-      </a>
-    </div>
-    <!-- End Card --> {% endcomment %}
     {% include 'components/pagination.html' %}
   </div>
   <!-- End Card Blog -->

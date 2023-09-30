@@ -17,11 +17,11 @@
           <div class="flex items-center">
             <div class="flex-shrink-0">
               <img class="aspect-[4/3] h-[2.875rem] w-[2.875rem] border-2 border-white rounded-full"
-                src="https://images.unsplash.com/photo-1669837401587-f9a4cfe3126e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+                src="{{ featured_post.author.image.url }}"
                 alt="Image Description" />
             </div>
             <div class="ml-2.5 sm:ml-4">
-              <h4 class="font-semibold text-white">{{ featured_post.author.username|title}}</h4>
+              <h4 class="font-semibold text-white">{{ featured_post.author.user.first_name|title}} {{ featured_post.author.user.last_name|title}}</h4>
               <p class="text-xs text-white/[.8]">{{ featured_post.published|date:"F d, Y" }}</p>
             </div>
           </div>
@@ -148,11 +148,11 @@
       </div>
       <div class="mt-auto flex items-center gap-x-3">
         <img class="aspect-[4/3] w-8 h-8 rounded-full"
-        src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80"
+        src="{{ featured_post.author.image.url }}"
         alt="Image Description" />
         <div>
           <h5 class="text-sm text-gray-800 dark:text-gray-200">
-            By {{ post.author.username|title }}
+            By {{ featured_post.author.user.first_name|title}} {{ featured_post.author.user.last_name|title}}
           </h5>
         </div>
       </div>
