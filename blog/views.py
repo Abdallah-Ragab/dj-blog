@@ -23,6 +23,21 @@ from .forms import CommentForm, ShareViaEmailForm, PostForm
 
 DEFAULT_PER_PAGE = 9
 
+def like_post(request, slug):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(["GET"])
+    post = get_object_or_404(Post, slug=slug)
+    post.likes += 1
+    post.save()
+    return HttpResponse("OK")
+def unlike_post(request, slug):
+    if request.method != "GET":
+        return HttpResponseNotAllowed(["GET"])
+    post = get_object_or_404(Post, slug=slug)
+    post.likes -= 1 if post.likes > 0 else 0
+    post.save()
+    return HttpResponse("OK")
+
 class TagListJSON(View):
     def get(self, request, *args, **kwargs):
         search_term = request.GET.get("search", None)
