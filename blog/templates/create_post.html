@@ -11,7 +11,7 @@
     </div>
     <div class="mt-12 grid items-start lg:grid-cols-3 gap-6 lg:gap-16">
       <!-- Card -->
-      <div class="col-span-2 lg:order-none order-last bg-white rounded">
+      <div class="col-span-2 lg:order-none order-last bg-white rounded prose md:prose-lg lg:prose-xl max-w-none dark:prose-invert">
         <div id="postContent" class="flex flex-col border rounded-xl p-4 sm:p-6 lg:p-8 dark:border-gray-700 bg-white"></div>
       </div>
 
@@ -93,7 +93,7 @@
 </div>
 
   <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/typography@latest/src/index.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.4.1/dist/typography.min.css" />
   <link rel="stylesheet" href="{% static 'css/summernote-lite.min.css' %}" />
   <script src="{% static 'js/summernote-lite.min.js' %}"></script>
 
@@ -103,6 +103,37 @@
         placeholder: "Write the content of your post here...",
         tabsize: 2,
         minHeight: 400,
+        popover: {
+          image: [
+            ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+            ['float', ['floatLeft', 'floatRight', 'floatNone']],
+            ['remove', ['removeMedia']]
+          ],
+          link: [
+            ['link', ['linkDialogShow', 'unlink']]
+          ],
+          table: [
+            ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+            ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+          ],
+          air: [
+            ['color', ['color']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['para', ['ul', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture']]
+          ]
+        },
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['fontname', ['fontname']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture']],
+          ['view', ['fullscreen', 'codeview', 'help']],
+        ],
         callbacks: {
           onChange: function (contents, $editable) {
             document.getElementById("postContent-input").value = contents;

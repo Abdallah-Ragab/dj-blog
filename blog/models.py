@@ -13,7 +13,7 @@ def save_image(instance, filename):
     return f"images/{instance.author}-{filename}"
 
 class Author(models.Model):
-    user = models.OneToOneField(USER, on_delete=models.CASCADE)
+    user = models.OneToOneField(USER, on_delete=models.CASCADE, related_name="author")
     bio = models.TextField(max_length=500, blank=True, null=True)
     image = models.ImageField(upload_to="images/", blank=True, null=True)
 
