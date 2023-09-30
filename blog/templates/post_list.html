@@ -1,31 +1,30 @@
 {% extends 'layouts/base.html' %}
 
 {% block body %}
-
-<!-- Card Blog -->
-<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+  <!-- Card Blog -->
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     <!-- Title -->
     <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
       <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-        {% if tag  %}
-        {{ tag.name }}
-        {% elif search  %}
-        You searchd for {{ search }}
+        {% if tag %}
+          {{ tag.name }}
+        {% elif search %}
+          You searchd for {{ search }}
         {% else %}
-        Latest Posts
+          Latest Posts
         {% endif %}
       </h2>
       <p class="mt-1 text-gray-600 dark:text-gray-400">
         {% if tag %}
-        Check out the latest blog posts talking about {{ tag.name }}
+          Check out the latest blog posts talking about {{ tag.name }}
         {% elif search %}
-        {% if posts|length < 1 %}
-        No results found for the search term "{{ search }}"
+          {% if (posts|length) < 1 %}
+            No results found for the search term "{{ search }}"
+          {% else %}
+            Viewing search results for blog posts containing the term "{{ search }}"
+          {% endif %}
         {% else %}
-        Viewing search results for blog posts containing the term "{{ search }}"
-        {% endif %}
-        {% else %}
-        Check out our latest posts from our blog
+          Check out our latest posts from our blog
         {% endif %}
       </p>
     </div>
@@ -35,28 +34,22 @@
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
       <!-- Card -->
       {% for post in posts %}
-      <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{% url 'blog:post_detail' post.slug %}">
-        <div class="aspect-w-16 aspect-h-11">
-          <img class="w-full object-cover rounded-xl aspect-[4/3]" src="{{ post.image.url }}" alt="{{ post.title }}">
-        </div>
-        <div class="my-6">
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">
-            {{ post.title|title }}
-          </h3>
-          <p class="mt-5 text-gray-600 dark:text-gray-400">
-            {{ post.body|safe|striptags|truncatewords:20 }}
-          </p>
-        </div>
-        <div class="mt-auto flex items-center gap-x-3">
-          <img class="w-8 h-8 rounded-full" src="{{ post.author.image.url }}" alt="Image Description">
-          <div>
-            <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.user.first_name|title}} {{ post.author.user.last_name|title}}</h5>
-            <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ post.published|date:"F d, Y" }}
-              </p>
+        <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{% url 'blog:post_detail' post.slug %}">
+          <div class="aspect-w-16 aspect-h-11">
+            <img class="w-full object-cover rounded-xl aspect-[4/3]" src="{{ post.image.url }}" alt="{{ post.title }}" />
           </div>
-        </div>
-      </a>
+          <div class="my-6">
+            <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">{{ post.title|title }}</h3>
+            <p class="mt-5 text-gray-600 dark:text-gray-400">{{ post.body|safe|striptags|truncatewords:20 }}</p>
+          </div>
+          <div class="mt-auto flex items-center gap-x-3">
+            <img class="w-8 h-8 rounded-full" src="{{ post.author.image.url }}" alt="Image Description" />
+            <div>
+              <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ post.author.user.first_name|title }} {{ post.author.user.last_name|title }}</h5>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ post.published|date:'F d, Y' }}</p>
+            </div>
+          </div>
+        </a>
       {% endfor %}
       <!-- End Card -->
     </div>
@@ -64,4 +57,4 @@
     {% include 'components/pagination.html' %}
   </div>
   <!-- End Card Blog -->
-  {% endblock body %}
+{% endblock %}
