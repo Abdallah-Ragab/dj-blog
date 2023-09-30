@@ -1,18 +1,18 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog</title>
     <script src="{% static 'js/tailwind.3.3.3.js' %}"></script>
     <script src="{% static 'js/preline.1.9.0.min.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/forms@0.5.6/src/index.min.js"></script>
-</head>
-<body class="bg-gray-50 dark:bg-gray-950">
+  </head>
+  <body class="bg-gray-50 dark:bg-gray-950">
     {% include 'components/navbar.html' %}
     {% block body %}
 
-    {% endblock body %}
-</body>
+    {% endblock %}
+  </body>
 </html>
