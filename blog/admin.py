@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Post, Comment, Tag
+from .models import Post, Comment, Tag, Author
 # Register your models here.
 
 # admin.site.register(Post)
@@ -29,3 +29,27 @@ class TagsAdmin(admin.ModelAdmin):
     search_fields = ['name']
     ordering = ['name']
     readonly_fields = ['slug']
+
+@admin.register(Author)
+class AuthorsAdmin(admin.ModelAdmin):
+    # display foreign model (user) fields like user.username
+    def username(self, obj):
+        return obj.user.username
+
+    def email(self, obj):
+        return obj.user.email
+
+    def first_name(self, obj):
+        return obj.user.first_name
+
+    def last_name(self, obj):
+        return obj.user.last_name
+
+
+    username.short_description = 'Username'
+    email.short_description = 'Email'
+    first_name.short_description = 'First Name'
+    last_name.short_description = 'Last Name'
+
+
+    list_display = ['username', 'email', 'first_name', 'last_name', 'bio', 'image']

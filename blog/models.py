@@ -12,6 +12,13 @@ AUTO_COMMENT_ACTIVE = True
 def save_image(instance, filename):
     return f"images/{instance.author}-{filename}"
 
+class Author(models.Model):
+    user = models.OneToOneField(USER, on_delete=models.CASCADE)
+    bio = models.TextField(max_length=500, blank=True, null=True)
+    image = models.ImageField(upload_to="images/", blank=True, null=True)
+
+    def __str__(self) -> str:
+        return self.user.username
 
 class Tag(models.Model):
     name = models.CharField(max_length=24)
@@ -51,11 +58,9 @@ class Comment(models.Model):
             )
         ]
 
-
 class PublicPostsManager(models.Manager):
     def get_queryset(self) -> QuerySet:
         return super().get_queryset().filter(status=Post.Status.PUBLIC)
-
 
 class Post(models.Model):
     class Status(models.TextChoices):
@@ -92,8 +97,6 @@ class Post(models.Model):
                 fields=["-published"],
             )
         ]
-
-
 
 def auto_populate_unique_slug(sender, instance, update_fields, *args, **kwargs):
     instance.slug = generate_unique_slug(Post, "slug", "title", instance)
