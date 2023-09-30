@@ -1,181 +1,103 @@
 {% extends 'layouts/base.html' %} {% block body %}
-<!-- Card Blog -->
-<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <!-- Grid -->
-  <div class="grid lg:grid-cols-1 gap-6">
-    <!-- Card -->
-    <a class="group relative block" href="{{ featured_post.get_absolute_url }}">
-      <div
-        class="flex-shrink-0 relative w-full rounded-xl overflow-hidden w-full h-[450px] before:absolute before:inset-x-0 before:w-full before:h-full before:bg-gradient-to-t before:from-gray-900/[.7] before:z-[1]">
-        <img class="aspect-[4/3] w-full h-full absolute top-0 left-0 object-cover" src="{{ featured_post.image.url }}"
-          alt="{{ featured_post.title }}" />
-      </div>
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="grid lg:grid-cols-1 gap-6">
+      <a class="group relative block" href="{{ featured_post.get_absolute_url }}">
+        <div class="flex-shrink-0 relative w-full rounded-xl overflow-hidden w-full h-[450px] before:absolute before:inset-x-0 before:w-full before:h-full before:bg-gradient-to-t before:from-gray-900/[.7] before:z-[1]">
+          <img class="aspect-[4/3] w-full h-full absolute top-0 left-0 object-cover" src="{{ featured_post.image.url }}" alt="{{ featured_post.title }}" />
+        </div>
 
-      <div class="absolute top-0 inset-x-0 z-10">
-        <div class="p-4 flex flex-col h-full sm:p-6">
-          <!-- Avatar -->
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <img class="aspect-[4/3] h-[2.875rem] w-[2.875rem] border-2 border-white rounded-full"
-                src="{{ featured_post.author.image.url }}"
-                alt="Image Description" />
-            </div>
-            <div class="ml-2.5 sm:ml-4">
-              <h4 class="font-semibold text-white">{{ featured_post.author.user.first_name|title}} {{ featured_post.author.user.last_name|title}}</h4>
-              <p class="text-xs text-white/[.8]">{{ featured_post.published|date:"F d, Y" }}</p>
+        <div class="absolute top-0 inset-x-0 z-10">
+          <div class="p-4 flex flex-col h-full sm:p-6">
+            <div class="flex items-center">
+              <div class="flex-shrink-0">
+                <img class="aspect-[4/3] h-[2.875rem] w-[2.875rem] border-2 border-white rounded-full" src="{{ featured_post.author.image.url }}" alt="Image Description" />
+              </div>
+              <div class="ml-2.5 sm:ml-4">
+                <h4 class="font-semibold text-white">{{ featured_post.author.user.first_name|title }} {{ featured_post.author.user.last_name|title }}</h4>
+                <p class="text-xs text-white/[.8]">{{ featured_post.published|date:'F d, Y' }}</p>
+              </div>
             </div>
           </div>
-          <!-- End Avatar -->
         </div>
-      </div>
 
-      <div class="absolute bottom-0 inset-x-0 z-10">
-        <div class="flex flex-col h-full p-4 sm:p-6">
-          <h3 class="text-lg sm:text-3xl font-semibold text-white group-hover:text-white/[.8]">
-            {{ featured_post.title|title}}
-          </h3>
-          <p class="mt-2 text-white/[.8]">
-            {{ featured_post.body|safe|striptags|truncatewords:15 }}
-          </p>
+        <div class="absolute bottom-0 inset-x-0 z-10">
+          <div class="flex flex-col h-full p-4 sm:p-6">
+            <h3 class="text-lg sm:text-3xl font-semibold text-white group-hover:text-white/[.8]">{{ featured_post.title|title }}</h3>
+            <p class="mt-2 text-white/[.8]">{{ featured_post.body|safe|striptags|truncatewords:15 }}</p>
+          </div>
         </div>
-      </div>
-    </a>
-    <!-- End Card -->
-  </div>
-  <!-- End Grid -->
-</div>
-<!-- End Card Blog -->
-
-<!-- Card Blog -->
-<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <!-- Title -->
-  <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
-    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-      Read our latest posts
-    </h2>
-    <p class="mt-1 text-gray-600 dark:text-gray-400">
-      keep up to date with the latest posts and updates from our blog
-    </p>
-  </div>
-  <!-- End Title -->
-
-  <!-- Grid -->
-  <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 lg:mb-14">
-    <!-- Card -->
-
-    {% for post in latest_posts %}
-
-
-    <a class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800"
-    href="{{ post.get_absolute_url }}">
-    <div class="aspect-w-16 aspect-h-9">
-      <img class="aspect-[4/3] w-full object-cover rounded-t-xl"
-      src="{{ post.image.url }}"
-      alt="{{ post.titie }}" />
+      </a>
     </div>
-    <div class="p-4 md:p-5">
-      <p class="mt-2 text-xs uppercase text-gray-600 dark:text-gray-400">
-        {{ post.tags.1 }}
-      </p>
-      <h3
-      class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">
-      {{ post.title }}
-    </h3>
   </div>
-</a>
-{% endfor %}
-<!-- End Card -->
-</div>
-<!-- End Grid -->
 
-  <!-- Card -->
-  <div class="text-center">
-    <div class="inline-block bg-white border shadow-sm rounded-full dark:bg-slate-900 dark:border-gray-800">
-      <div class="py-3 px-4 flex items-center gap-x-2">
-        <p class="text-gray-600 dark:text-gray-400">Want to read more?</p>
-        <a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium"
-          href="{% url 'blog:post_list' %}">
-          Go here
-          <svg class="w-2.5 h-2.5" width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+  <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+    <div class="max-w-2xl text-center mx-auto mb-10 lg:mb-14">
+      <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">Read our latest posts</h2>
+      <p class="mt-1 text-gray-600 dark:text-gray-400">keep up to date with the latest posts and updates from our blog</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10 lg:mb-14">
+      {% for post in latest_posts %}
+        <a class="group flex flex-col bg-white border shadow-sm rounded-xl hover:shadow-md transition dark:bg-slate-900 dark:border-gray-800" href="{{ post.get_absolute_url }}">
+          <div class="aspect-w-16 aspect-h-9">
+            <img class="aspect-[4/3] w-full object-cover rounded-t-xl" src="{{ post.image.url }}" alt="{{ post.titie }}" />
+          </div>
+          <div class="p-4 md:p-5">
+            <p class="mt-2 text-xs uppercase text-gray-600 dark:text-gray-400">{{ post.tags[1] }}</p>
+            <h3 class="mt-2 text-lg font-medium text-gray-800 group-hover:text-blue-600 dark:text-gray-300 dark:group-hover:text-white">{{ post.title }}</h3>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="text-center">
+      <div class="inline-block bg-white border shadow-sm rounded-full dark:bg-slate-900 dark:border-gray-800">
+        <div class="py-3 px-4 flex items-center gap-x-2">
+          <p class="text-gray-600 dark:text-gray-400">Want to read more?</p>
+          <a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium" href="{% url 'blog:post_list' %}">
+            Go here<svg class="w-2.5 h-2.5" width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% for tag in featured_tags %}
+    <div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+      <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
+        <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">{{ tag.name|title }}</h2>
+        <p class="mt-1 text-gray-600 dark:text-gray-400">Interesed in {{ tag.name|title }}? Read our latest posts about it.</p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for post in tag.posts.all|slice:'3' %}
+          <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{{ post.get_absolute_url }}">
+            <div class="aspect-w-16 aspect-h-11">
+              <img class="aspect-[4/3] w-full object-cover rounded-xl" src="{{ post.image.url }}" alt="{{ post.title }}" />
+            </div>
+            <div class="my-6">
+              <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">{{ post.title }}</h3>
+              <p class="mt-5 text-gray-600 dark:text-gray-400">{{ post.body|safe|striptags|truncatewords:15 }}</p>
+            </div>
+            <div class="mt-auto flex items-center gap-x-3">
+              <img class="aspect-[4/3] w-8 h-8 rounded-full" src="{{ featured_post.author.image.url }}" alt="Image Description" />
+              <div>
+                <h5 class="text-sm text-gray-800 dark:text-gray-200">By {{ featured_post.author.user.first_name|title }} {{ featured_post.author.user.last_name|title }}</h5>
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+
+      <div class="mt-12 text-center">
+        <a class="inline-flex justify-center items-center gap-x-2 text-center bg-white border hover:border-gray-300 text-sm text-blue-600 hover:text-blue-700 font-medium hover:shadow-sm rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:bg-slate-900 dark:border-gray-700 dark:hover:border-gray-600 dark:text-blue-500 dark:hover:text-blue-400 dark:hover:shadow-slate-700/[.7] dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800" href="{% url 'blog:tag_list' tag.slug %}">
+          Read more<svg class="w-2.5 h-2.5" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
         </a>
       </div>
     </div>
-  </div>
-  <!-- End Card -->
-</div>
-<!-- End Card Blog -->
-
-<!-- Card Blog -->
-
-{% for tag in featured_tags %}
-
-
-<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-  <!-- Title -->
-  <div class="max-w-2xl mx-auto text-center mb-10 lg:mb-14">
-    <h2 class="text-2xl font-bold md:text-4xl md:leading-tight dark:text-white">
-      {{ tag.name|title }}
-    </h2>
-    <p class="mt-1 text-gray-600 dark:text-gray-400">
-      Interesed in {{ tag.name|title }}? Read our latest posts about it.
-    </p>
-  </div>
-  <!-- End Title -->
-
-  <!-- Grid -->
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <!-- Card -->
-
-    {% for post in tag.posts.all|slice:"3" %}
-
-
-    <a class="group flex flex-col h-full border border-gray-200 hover:border-transparent hover:shadow-lg transition-all duration-300 rounded-xl p-5 dark:border-gray-700 dark:hover:border-transparent dark:hover:shadow-black/[.4]" href="{{ post.get_absolute_url }}">
-      <div class="aspect-w-16 aspect-h-11">
-        <img class="aspect-[4/3] w-full object-cover rounded-xl"
-        src="{{ post.image.url }}"
-        alt="{{ post.title }}" />
-      </div>
-      <div class="my-6">
-        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-300 dark:group-hover:text-white">
-          {{ post.title }}
-        </h3>
-        <p class="mt-5 text-gray-600 dark:text-gray-400">
-          {{ post.body|safe|striptags|truncatewords:15 }}
-        </p>
-      </div>
-      <div class="mt-auto flex items-center gap-x-3">
-        <img class="aspect-[4/3] w-8 h-8 rounded-full"
-        src="{{ featured_post.author.image.url }}"
-        alt="Image Description" />
-        <div>
-          <h5 class="text-sm text-gray-800 dark:text-gray-200">
-            By {{ featured_post.author.user.first_name|title}} {{ featured_post.author.user.last_name|title}}
-          </h5>
-        </div>
-      </div>
-    </a>
-    {% endfor %}
-</div>
-  <!-- End Card -->
-
-  <!-- Card -->
-  <div class="mt-12 text-center">
-    <a class="inline-flex justify-center items-center gap-x-2 text-center bg-white border hover:border-gray-300 text-sm text-blue-600 hover:text-blue-700 font-medium hover:shadow-sm rounded-full focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white transition py-3 px-4 dark:bg-slate-900 dark:border-gray-700 dark:hover:border-gray-600 dark:text-blue-500 dark:hover:text-blue-400 dark:hover:shadow-slate-700/[.7] dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-    href="{% url 'blog:tag_list' tag.slug %}">
-    Read more
-    <svg class="w-2.5 h-2.5" width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M5.27921 2L10.9257 7.64645C11.1209 7.84171 11.1209 8.15829 10.9257 8.35355L5.27921 14"
-      stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-    </svg>
-  </a>
-</div>
-<!-- End Card -->
-</div>
-
-{% endfor %}
-<!-- End Card Blog -->
-
-{% endblock body %}
+  {% endfor %}
+{% endblock %}
