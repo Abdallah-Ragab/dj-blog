@@ -6,7 +6,7 @@ from .models import Post, Comment, Tag, Author
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
-    list_display = ['title', 'author', 'published', 'status',]
+    list_display = ['title', 'author', 'published', 'status']
     list_filter = ['author', 'published', 'status']
     list_editable = ['status']
     search_fields = ['title', 'body']
