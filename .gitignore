@@ -1,8 +1,5 @@
-*.sqlite3
 __pycache__/
 *.todo
 *.env
 settings.json
 .vscode/
-images/
-media/
