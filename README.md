@@ -7,6 +7,7 @@ A simple blog application built with Django and Python
 - Create, edit and delete posts
 - Author profile
 - Post comments
+- Post Likes
 - Post tags
 - Related posts
 - Rich text editor
